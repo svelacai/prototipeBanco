@@ -167,7 +167,7 @@ public class BancoService {
 		List<Empleados> consulta = empleadoRepository.empleados();
 		List<Empleados> empleado = new ArrayList<>();
 		consulta.forEach(itera -> {
-			if (itera.getSalario() != null && !itera.getSalario().toString().isBlank() && itera.getSalario() > 0) {
+			if (itera.getSalario() != null && !itera.getSalario().toString().isEmpty() && itera.getSalario() > 0) {
 				empleado.add(itera);
 			}
 		});

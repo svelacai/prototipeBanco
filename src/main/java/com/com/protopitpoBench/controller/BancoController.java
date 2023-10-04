@@ -28,7 +28,7 @@ public class BancoController {
 	@GetMapping("/getCliente")
 	public ResponseEntity<?> consultar(@RequestBody Cliente cliente) {
 		Optional<Cliente> consulta = bancoService.consultaClientes(cliente);
-		if (consulta.isEmpty()) {
+		if (consulta.toString().isEmpty()) {
 			String messager = "registro no encontrado";
 			return new ResponseEntity<>(messager, HttpStatus.BAD_REQUEST);
 
@@ -56,7 +56,7 @@ public class BancoController {
 
 	@PostMapping("/crearUsuario")
 	public ResponseEntity<?> crearUsuario(@RequestBody Usuario usuario) throws NoSuchAlgorithmException {
-		if (usuario.getUsername() == null || usuario.getUsername().isBlank()) {
+		if (usuario.getUsername() == null ) {
 			String messager = "Datos vacios o en null";
 			return new ResponseEntity<>(messager, HttpStatus.BAD_REQUEST);
 
