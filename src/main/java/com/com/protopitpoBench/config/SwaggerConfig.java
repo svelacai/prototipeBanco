@@ -1,7 +1,5 @@
 package com.com.protopitpoBench.config;
 
-import java.util.Arrays;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,13 +28,12 @@ public class SwaggerConfig {
 
 	private ApiInfo apiInfo() {
 	    return new ApiInfoBuilder()
-	            .title("Api rest Banco")
-	            .description("api rest para el cálculo de la posición de una nave")
-	            .termsOfServiceUrl("https://caracaicedo.github.io/protopitpoBench/swagger.json") // Cambia la URL a la ubicación de tu archivo Swagger en GitHub Pages
+	            .title("Api rest Banco	")
+	            .description("api rest para el el calcula de de la posicion de una nave")
+	            .termsOfServiceUrl("localhost")
 	            .version("1.0")
 	            .build();
 	}
-
 
 	private ApiKey apiKey() {
 	    return new ApiKey("jwtToken", "Authorization", "header");
