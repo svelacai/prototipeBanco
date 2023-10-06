@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.com.protopitpoBench.constantes.Constante;
 import com.com.protopitpoBench.entity.Cliente;
 import com.com.protopitpoBench.entity.Empleados;
 import com.com.protopitpoBench.entity.Usuario;
@@ -34,6 +35,7 @@ public class BancoController {
 
 	@GetMapping("/getCliente")
 	public ResponseEntity<?> consultar(@RequestBody Cliente cliente) {
+		
 		Optional<Cliente> consulta = bancoService.consultaClientes(cliente);
 		if (consulta.toString().isEmpty()) {
 			String messager = "registro no encontrado";
@@ -123,10 +125,13 @@ public class BancoController {
 	}
 
 	@PostMapping("/getClienteExcel")
-	public ResponseEntity<?> getClienteExcel() {
-		bancoService.generarExcelClientes();
+	public ResponseEntity<String> getClienteExcel() {
+		String response = bancoService.generarExcelClientes();
+		if(response.equals(Constante.exitoso)) {
+		return new ResponseEntity<>(response,HttpStatus.OK);
+		}
+		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
 
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

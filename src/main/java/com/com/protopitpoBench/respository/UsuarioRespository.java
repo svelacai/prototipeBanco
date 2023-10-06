@@ -9,7 +9,7 @@ import com.com.protopitpoBench.entity.Usuario;
 
 public interface UsuarioRespository  extends CrudRepository<Usuario, Integer> {
 	
-	@Query (value = "select * from banco.usuario ", nativeQuery = true)
+	@Query (value = "select * from usuario ", nativeQuery = true)
 	List<Usuario> getUsuarios();
 
 

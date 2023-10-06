@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +12,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.com.protopitpoBench.constantes.Constante;
 import com.com.protopitpoBench.entity.Cliente;
 import com.com.protopitpoBench.entity.Empleados;
 import com.com.protopitpoBench.entity.Usuario;
@@ -68,7 +69,7 @@ public class BancoService {
 			Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			byte[] encryptedBytes = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
-			return Base64.getEncoder().encodeToString(encryptedBytes);
+			return Base64.encodeBase64String(encryptedBytes);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -79,7 +80,7 @@ public class BancoService {
 		try {
 			Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
 			cipher.init(Cipher.DECRYPT_MODE, secretKey);
-			byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(ciphertext));
+			byte[] decryptedBytes = cipher.doFinal(Base64.decodeBase64(ciphertext));
 			return new String(decryptedBytes, StandardCharsets.UTF_8);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -176,7 +177,8 @@ public class BancoService {
 
 	}
 
-	public void generarExcelClientes() {
+	public String generarExcelClientes() {
+		String salida = "";
 		Workbook workbook = new HSSFWorkbook();
 		Sheet sheet = workbook.createSheet("Clientes");
 
@@ -218,12 +220,20 @@ public class BancoService {
 
 		try {
 			// Se genera el documento
-			FileOutputStream out = new FileOutputStream(
-					new File("C://Users//user//Desktop//udemy//SC//Santiago//excel/clientes.xls"));
+			FileOutputStream out = new FileOutputStream(new File(Constante.ruta_local_excel_e));
 			workbook.write(out);
 			out.close();
+			workbook.close();
+			if (out.toString().isEmpty() || out.toString() == null) {
+				salida = Constante.fallo;
+
+			} else {
+				salida = Constante.exitoso;
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return salida;
 	}
 }

@@ -9,7 +9,7 @@ import com.com.protopitpoBench.entity.Empleados;
 
 public interface EmpleadoRepository extends CrudRepository<Empleados, Integer> {
 
-	@Query(value = "select * from Banco.empleados e ", nativeQuery = true)
+	@Query(value = "select * from empleados e ", nativeQuery = true)
 	List<Empleados> empleados();
 
 }
